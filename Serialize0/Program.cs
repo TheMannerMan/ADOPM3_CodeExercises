@@ -1,7 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-//Console.WriteLine("Hello, World!");
-
-using System;
+﻿using System;
+using System.Text.Json;
 
 namespace Serialization0 // Note: actual namespace depends on the project name.
 {
@@ -11,6 +9,7 @@ namespace Serialization0 // Note: actual namespace depends on the project name.
         {
             var friendsToDisk = FriendList.Factory.CreateRandom(1_000);
             Console.WriteLine(friendsToDisk.myFriends.Count);
+            
 
             friendsToDisk.SerializeXml("Friends.xml");
             var xmlFriends = FriendList.DeSerializeXml("Friends.xml");
@@ -21,6 +20,12 @@ namespace Serialization0 // Note: actual namespace depends on the project name.
             var jsonFriends = FriendList.DeSerializeJson("Friends.json");
 
             Console.WriteLine(jsonFriends?.myFriends.Count);
+
+            for (int i = 0; i< 10;  i++)
+            {
+                Console.WriteLine(jsonFriends?[i]);
+            }
+
         }
     }
 }

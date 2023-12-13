@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Text.Json;
+using System.Runtime.CompilerServices;
 
 namespace Serialization0
 {
@@ -49,21 +50,36 @@ namespace Serialization0
             //Your Code
             return null;
         }
+        
         public void SerializeJson(string jsonFileName)
         {
-            //Your Code
+            // Följande är min kod. Ta bort om jag vill göra om övningen
+            using (Stream s = File.Create(fname(jsonFileName)))
+                using (TextWriter writer = new StreamWriter(s))
+            {
+                writer.Write(JsonSerializer.Serialize(this));
+            }
 
 
         }
+        
+        
         public static FriendList DeSerializeJson(string jsonFileName)
         {
-            //Your Code
-            return null;
+            // Följande är min kod. Ta bort om jag vill göra om övningen
+            FriendList friendList = new FriendList(); 
+            using (Stream s = File.OpenRead(fname(jsonFileName)))
+                using (TextReader reader = new StreamReader(s))
+            {
+                friendList = JsonSerializer.Deserialize<FriendList>(reader.ReadToEnd());
+            }
+            return friendList;
+
         }
 
         static string fname(string name)
         {
-            var documentPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             documentPath = Path.Combine(documentPath, "ADOP", "Serialization");
             if (!Directory.Exists(documentPath)) Directory.CreateDirectory(documentPath);
             return Path.Combine(documentPath, name);
